@@ -1,92 +1,96 @@
 # vagrant-web-provisioning 🚀
 
-A fully automated web server provisioning setup using Vagrant and VirtualBox.
-No manual configuration — just `vagrant up` and your site is live.
+Automatically sets up an Apache web server and deploys a website with a single command — no manual configuration needed.
 
-## 📌 Project Overview
+---
 
-This project automates the complete setup of an Apache web server on Ubuntu 22.04,
-including package installation, service configuration, website deployment, and cleanup.
-Built to demonstrate Infrastructure as Code (IaC) principles using Vagrant shell provisioning.
+## Step 1 — Download and Install Vagrant
 
-## 🛠 Stack
+Go to [https://www.vagrantup.com/downloads](https://www.vagrantup.com/downloads) and install it for your OS.
 
-| Tool                 | Purpose                    |
-|----------------------|----------------------------|
-| Vagrant              | VM lifecycle management    |
-| VirtualBox           | Hypervisor / VM provider   |
-| Ubuntu 22.04 (Jammy) | Guest OS                   |
-| Apache2              | Web server                 |
-| Shell                | Provisioning / automation  |
+Verify it works:
+```bash
+vagrant --version
+```
 
-## ⚙️ Prerequisites
+---
 
-Make sure you have these installed on your host machine:
+## Step 2 — Download and Install VirtualBox
 
-- [Vagrant](https://www.vagrantup.com/downloads) `>= 2.x`
-- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) `>= 6.x`
+Go to [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads) and install it for your OS.
 
-## 🚀 Getting Started
+---
+
+## Step 3 — Clone this Repo
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/<your-username>/vagrant-web-provisioning.git
 cd vagrant-web-provisioning
+```
+
+> Make sure [Git](https://git-scm.com/downloads) is installed if you don't have it.
+
+---
+
+## Step 4 — (Optional) Edit the Vagrantfile
+
+Open the `Vagrantfile` in any text editor before running.
+
+**Change the private IP** (if `192.168.33.28` conflicts with your network):
+```ruby
+config.vm.network "private_network", ip: "192.168.33.28"  # edit this
+```
+
+**Change the website template** (find free templates at [tooplate.com](https://www.tooplate.com)):
+```ruby
+wget https://www.tooplate.com/zip-templates/2153_fireworks_composer.zip  # replace URL
+unzip -o 2153_fireworks_composer.zip                                      # update filename
+cp -r 2153_fireworks_composer/* /var/www/html                             # update folder name
+```
+
+Save the file after making changes.
+
+---
+
+## Step 5 — Open a Terminal in the Project Folder and Run
+
+```bash
 vagrant up
 ```
 
-That's it. Vagrant will:
-1. Download the Ubuntu 22.04 box (first time only)
-2. Create and configure the VM (1024MB RAM, private network)
-3. Install Apache, wget, unzip, vim
-4. Deploy the website to `/var/www/html`
-5. Start and enable Apache on boot
-6. Clean up all temp files
+Vagrant will:
+- Download Ubuntu 22.04 (first time only, may take a few minutes)
+- Create and boot the VM
+- Install Apache automatically
+- Deploy the website
+- Clean up temp files
 
-## 🌐 Access the Site
+---
 
-Once provisioning completes, open your browser:
+## Step 6 — View the Site
+
+Open your browser and go to:
 
 ```
 http://192.168.33.28
 ```
 
-## 📁 Project Structure
+(Use whatever IP you set in the Vagrantfile if you changed it)
 
-```
-.
-├── Vagrantfile   # All VM config and provisioning logic
-└── README.md
-```
+---
 
-## 🔧 VM Configuration
+## Useful Commands
 
-| Setting  | Value                   |
-|----------|-------------------------|
-| Box      | ubuntu/jammy64          |
-| RAM      | 1024 MB                 |
-| Network  | Private — 192.168.33.28 |
-| Provider | VirtualBox              |
+| Command         | What it does              |
+|-----------------|---------------------------|
+| `vagrant up`    | Start and provision the VM |
+| `vagrant halt`  | Shut down the VM          |
+| `vagrant reload`| Restart the VM            |
+| `vagrant destroy` | Delete the VM completely |
+| `vagrant ssh`   | SSH into the VM           |
 
-## 📦 What Gets Provisioned
+---
 
-- Apache2 installed, started, and enabled on boot
-- Website template downloaded from [Tooplate](https://www.tooplate.com) and deployed to `/var/www/html`
-- Temp files cleaned up automatically after deployment
-
-## 🗑 Tear Down
-
-```bash
-vagrant halt      # stop the VM
-vagrant destroy   # delete the VM completely
-```
-
-## 💡 What I Learned
-
-- Vagrant provisioning with inline shell scripts
-- Apache web server setup and service management on Linux
-- Private networking in VirtualBox
-- Infrastructure as Code fundamentals
-
-## 📄 License
+## License
 
 MIT
